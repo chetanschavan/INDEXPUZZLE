@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #puzzle {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 5px;
+    }
+
+    .tile {
+      width: 100px;
+      height: 100px;
+      background-color: lightgray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
+  <title>HTML Puzzle</title>
+</head>
+<body>
+
+  <div id="puzzle">
+    <div class="tile" onclick="swapTiles(1, 0)">1</div>
+    <div class="tile" onclick="swapTiles(0, 1)">2</div>
+    <div class="tile" onclick="swapTiles(0, 2)">3</div>
+    <div class="tile" onclick="swapTiles(1, 1)">4</div>
+    <div class="tile" onclick="swapTiles(1, 2)">5</div>
+    <div class="tile" onclick="swapTiles(2, 0)">6</div>
+    <div class="tile" onclick="swapTiles(2, 1)">7</div>
+    <div class="tile" onclick="swapTiles(2, 2)">8</div>
+    <div class="tile"></div>
+  </div>
+
+  <script>
+    function swapTiles(row, col) {
+      const emptyTile = document.querySelector('.tile:not(.filled)');
+      const clickedTile = document.querySelector(`.tile:nth-child(${3 * row + col + 1})`);
+
+      if (isAdjacent(emptyTile, clickedTile)) {
+        emptyTile.textContent = clickedTile.textContent;
+        clickedTile.textContent = '';
+        emptyTile.classList.add('filled');
+        clickedTile.classList.remove('filled');
+      }
+    }
+
+    function isAdjacent(tile1, tile2) {
+      const index1 = Array.from(tile1.parentNode.children).indexOf(tile1);
+      const index2 = Array.from(tile2.parentNode.children).indexOf(tile2);
+
+      return Math.abs(index1 - index2) === 1 || Math.abs(index1 - index2) === 3;
+    }
+  </script>
+
+</body>
+</html>
